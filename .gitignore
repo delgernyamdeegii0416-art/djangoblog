@@ -1,0 +1,9 @@
+````
+
+venv/
+.env/
+__pycage__/
+*.pyc
+db.sqlite3
+media/
+````
