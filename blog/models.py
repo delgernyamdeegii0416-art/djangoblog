@@ -3,12 +3,20 @@ from django.utils.text import slugify
 
 # Create your models here.
 
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
 
 class Post(models.Model):
-    STATUS_CHOICES = [
-        ('draft', 'Draft'),
-        ('published', 'Published')
-    ]
+    STATUS_CHOICES = [('draft', 'Draft'),('published', 'Published')]
 
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
@@ -16,6 +24,8 @@ class Post(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='published')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    tags = models.ManyToManyField(Tag, blanks=True, related_name="posts")
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="posts")
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -23,4 +33,6 @@ class Post(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.title        
+        return self.title
+        
+                
