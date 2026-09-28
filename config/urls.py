@@ -25,3 +25,4 @@ urlpatterns = [
     path('', include('blog.urls')),
     path("__debug__/", include(debug_toolbar.urls)),
 ]
+
