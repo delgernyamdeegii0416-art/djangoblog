@@ -4,6 +4,7 @@ from .models import Post, Category
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from .forms import PostForm
 
 
 
@@ -40,9 +41,19 @@ class PostCreateView(CreateView):
     model = Post
     fields = ["title", "content", "category", "tags", "status"]
     template_name = "blog/post_form.html"
+    form_class = PostForm
 
     def get_success_url(self):
-        return reverse_lazy("post_detail", kwargs={"slug": self.object.slug})     
+        return reverse_lazy("post_detail", kwargs={"slug": self.object.slug}) 
+
+class PostUpdateView(UpdateView):
+    model = Post
+    fields = ["title", "content", "category", "tags", "status"]
+    template_name = "blog/post_form.html"
+    form_class = PostForm
+
+    def get_success_url(self):
+        return reverse_lazy("post_detail", kwargs={"slug": self.object.slug})            
 
 class PostDeleteView(DeleteView):
     model = Post
