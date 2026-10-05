@@ -31,6 +31,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 STATIC_URL = 'static/'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 STATICFILES_DIRS = [BASE_DIR / "blog" / "templates" / "blog" / "static"]
 
 

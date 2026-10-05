@@ -39,7 +39,6 @@ def post_list(request):
     )
 class PostCreateView(CreateView):
     model = Post
-    fields = ["title", "content", "category", "tags", "status"]
     template_name = "blog/post_form.html"
     form_class = PostForm
 
@@ -48,7 +47,6 @@ class PostCreateView(CreateView):
 
 class PostUpdateView(UpdateView):
     model = Post
-    fields = ["title", "content", "category", "tags", "status"]
     template_name = "blog/post_form.html"
     form_class = PostForm
 

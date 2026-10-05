@@ -5,5 +5,13 @@
 <a href="{% url 'post_delete' post.slug %}" class="btn btn-sm btn-outline-danger">Delete</a>
 <h1>{{ post.title }}</h1>
 <p class="text-muted">{{ post.created_at|date:"M d, Y" }}</p>
+{% if post.cover_image %}
+  <img src="{{ post.cover_image.url }}" class="img-fluid rounded mb-3" alt="{{ post.title }}">
+{% endif %}
 <p>{{ post.content }}</p>
+<nav>
+    <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+
+    <a href="{% url 'post_list' %}" class="btn btn-secondary">All Posts</a>
+</nav>
 {% endblock %}

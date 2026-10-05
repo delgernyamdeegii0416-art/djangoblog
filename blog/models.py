@@ -26,6 +26,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, blank=True, related_name="posts")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="posts")
+    cover_image = models.ImageField(upload_to="post_covers/", blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
