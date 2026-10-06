@@ -8,12 +8,22 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% for field in form %}
-        <div class="mb-3">
+        <div class="mb-3"><img id="preview" style="max-width:200px; display:none;" class="rounded">
             {{ field.label_tag }}
             {{ field }}
             {% if field.errors %}
                 <div class="text-danger small">{{ field.errors|striptags }}</div>
-            {% endif %}
+            {% endif %}            
+            <script>
+                const fileInput = document.querySelector('input[type="file"]');
+                if (fileInput) {
+                   fileInput.addEventListener('change', function(event) {
+                   const preview = document.getElementById('preview');
+                   preview.src = URL.createObjectURL(event.target.files[0]);
+                   preview.style.display = 'block';
+                });
+                }
+            </script>
         </div>
     {% endfor %}
     <button type="submit" class="btn btn-success">Save</button>    
