@@ -36,6 +36,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 STATICFILES_DIRS = [BASE_DIR / "blog" / "templates" / "blog" / "static"]
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 # Application definition
@@ -139,3 +140,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {messages.ERROR: "danger"}

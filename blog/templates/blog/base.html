@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
 </head>
 <body>
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
   <nav class="navbar navbar-dark bg-dark px-3">
     <a class="navbar-brand" href="{% url 'home' %}">DjangoBlog</a>
 

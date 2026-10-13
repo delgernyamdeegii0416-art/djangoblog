@@ -10,6 +10,8 @@ from django.contrib.auth import login
 from django.views.generic.edit import CreateView
 from .forms import PostForm, RegisterForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib import messages
+from django.views.generic import DetailView
 
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -118,7 +120,21 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        messages.success(self.request, "Post published successfully!")
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy("post_detail", kwargs={"slug": self.object.slug})
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = "blog/post_detail.html"
+    context_object_name = "post"
+
+    def get_queryset(self):
+        post = Post.objects.filter(status="published")
+        if self.request.user.is_authenticated:
+            post = Post.objects.filter(
+                models.Q(status="published") | models.Q(author=self.request.user)
+            )
+        return post        
