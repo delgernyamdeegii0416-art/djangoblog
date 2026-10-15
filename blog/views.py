@@ -1,17 +1,14 @@
-from django.shortcuts import render
-from django.core.paginator import Paginator
-from .models import Post, Category
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView
+from django.core.paginator import Paginator
+from django.db import models
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .forms import PostForm
 from django.contrib.auth import login
-from django.views.generic.edit import CreateView
-from .forms import PostForm, RegisterForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
-from django.views.generic import DetailView
+from .models import Post, Category
+from .forms import PostForm, RegisterForm
 
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -29,7 +26,14 @@ def post_detail(request, slug):
 
 
 def home(request):
-    return render(request, 'blog/home.html', {'title': 'This is the Djangblog Homepage.'})
+    posts = Post.objects.filter(status="published").order_by("-created_at")
+    paginator = Paginator(posts, 6)
+    page_obj = paginator.get_page(request.GET.get("page"))
+
+    return render(request, "blog/home.html", {
+        "page_obj": page_obj,
+        "title": "Home",
+    })
 
 def about(request):
     return render(request,'blog/about.html', {'team': 'This is the Djangoblog team.'})   
@@ -56,26 +60,10 @@ def post_list(request):
 def custom_403(request, exception=None):
     return render(request, "blog/403.html", status=403)
     
-class PostCreateView(CreateView):
-    model = Post
-    template_name = "blog/post_form.html"
-    form_class = PostForm
 
     def get_success_url(self):
         return reverse_lazy("post_detail", kwargs={"slug": self.object.slug}) 
-
-class PostUpdateView(UpdateView):
-    model = Post
-    template_name = "blog/post_form.html"
-    form_class = PostForm
-
-    def get_success_url(self):
-        return reverse_lazy("post_detail", kwargs={"slug": self.object.slug})            
-
-class PostDeleteView(DeleteView):
-    model = Post
-    template_name = "blog/post_confirm_delete.html"
-    success_url = reverse_lazy("home")
+         
 
 class RegisterView(CreateView):
     form_class = RegisterForm

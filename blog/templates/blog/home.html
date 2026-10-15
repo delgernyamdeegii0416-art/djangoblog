@@ -3,4 +3,16 @@
 {% block content %}
   <h1>Welcome to DjangoBlog{{ title }}</h1>
   <p>This page will soon show a list of blog posts.</p>
+  <div class="row">
+    {% for post in page_obj %}
+        {% include "blog/partials/_post_card.html" %}
+    {% empty %}
+        <div class="col-12">
+            <p class="text-center text-muted py-5">
+                No posts yet —
+                <a href="{% url 'post_create' %}">Write the first one!</a>
+            </p>
+        </div>
+    {% endfor %}
+  </div>
 {% endblock %}
