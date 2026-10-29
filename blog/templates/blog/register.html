@@ -1,14 +1,45 @@
 {% extends "blog/base.html" %}
 
-{% block title %}Register{% endblock %}
+{% block title %}新規登録{% endblock %}
+{% block page_heading %}新規登録{% endblock %}
+{% block page_subtitle %}アカウントを作成しましょう{% endblock %}
 
 {% block content %}
-<h1>Create an account</h1>
+<section class="auth-page">
+    <div class="auth-card">
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+        <div class="auth-logo">✦</div>
+        <h1 class="auth-title">アカウント作成</h1>
+        <p class="auth-subtitle">AnimeVerseに参加して、お気に入りのアニメを共有しよう。</p>
 
-    <button type="submit" class="btn btn-primary">Register</button>
-</form>
+        <form method="post" class="post-form auth-form" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="form-help">{{ field.help_text|safe }}</div>
+                    {% endif %}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-anime auth-submit">登録する</button>
+        </form>
+
+        <div class="auth-links">
+            <span>
+                すでにアカウントをお持ちですか？
+                <a href="{% url 'login' %}">ログイン</a>
+            </span>
+        </div>
+
+    </div>
+</section>
 {% endblock %}

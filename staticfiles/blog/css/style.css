@@ -11,3 +11,11 @@ body {
     height: 200px;
     object-fit: cover;
 }
+
+.post-excerpt {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 3-ыг 2 болгож сольно */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Гурван цэг (...) харуулахын тулд энэ мөрийг нэмнэ */
+}

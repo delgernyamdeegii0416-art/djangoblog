@@ -1,6 +1,84 @@
 {% extends "blog/base.html" %}
-{% block title %}Contact{% endblock %}
+
+{% block title %}お問い合わせ{% endblock %}
+{% block page_heading %}お問い合わせ{% endblock %}
+{% block page_subtitle %}ご質問・ご意見をお聞かせください{% endblock %}
+
 {% block content %}
-  <h1>Contact {{ team }}</h1>
-  <p>This is a Django template. Deegii`s Django.</p>
+<section class="contact-page">
+
+    <!-- INTRO -->
+    <div class="anime-welcome">
+        <div class="anime-eyebrow">
+            <span class="live-dot"></span>
+            CONTACT
+        </div>
+
+        <h1>お気軽に<span>ご連絡</span>ください</h1>
+
+        <p>
+            AnimeVerseに関するご質問、不具合のご報告、ご意見・ご要望などを受け付けています。
+        </p>
+    </div>
+
+    <div class="contact-layout">
+
+        <!-- LEFT: info -->
+        <aside class="contact-info">
+
+            <article class="about-card">
+                <div class="about-icon">✉</div>
+                <h3>メール</h3>
+                <p>delgernyamdeegii0416@gmail.com</p>
+            </article>
+
+            <article class="about-card">
+                <div class="about-icon">◔</div>
+                <h3>返信までの目安</h3>
+                <p>通常、2〜3営業日以内にご返信いたします。</p>
+            </article>
+
+            <article class="about-card">
+                <div class="about-icon">✦</div>
+                <h3>運営</h3>
+                <p>AnimeVerse 運営チーム</p>
+            </article>
+
+        </aside>
+
+        <!-- RIGHT: form -->
+        <section class="form-card">
+            <h2 class="form-card-title">メッセージを送る</h2>
+
+            <form method="post" class="post-form contact-form" novalidate>
+                {% csrf_token %}
+
+                <div class="contact-row">
+                    <div class="form-group">
+                        <label for="contactName">お名前</label>
+                        <input type="text" id="contactName" name="name"
+                               value="{{ values.name|default:'' }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactEmail">メールアドレス</label>
+                        <input type="email" id="contactEmail" name="email"
+                               value="{{ values.email|default:'' }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactMessage">メッセージ</label>
+                    <textarea id="contactMessage" name="message" required>{{ values.message|default:'' }}</textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-anime">送信</button>
+                </div>
+            </form>
+        </section>
+
+    </div>
+
+</section>
 {% endblock %}

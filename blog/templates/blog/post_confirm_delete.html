@@ -7,7 +7,7 @@
 <p>This cannot be undone.</p>
 <form method="post">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Yes, delete</button>
-    <a href="{% url 'post_detail' object.slug %}" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-danger">削除</button>
+    <a href="{% url 'post_detail' object.slug %}" class="btn btn-secondary">キャンサル</a>
 </form>
 {% endblock %}

@@ -4,7 +4,7 @@
 {% block title %}My Posts{% endblock %}
 
 {% block content %}
-<h1>My Posts</h1>
+<h1>自分の投稿</h1>
 
 <div class="row">
     {% for post in page_obj %}
@@ -24,19 +24,19 @@
     <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">前</a>
             </li>
         {% endif %}
 
         <li class="page-item disabled">
             <span class="page-link">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                ページ {{ page_obj.number }} ー {{ page_obj.paginator.num_pages }}
             </span>
         </li>
 
         {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">次</a>
             </li>
         {% endif %}
     </ul>

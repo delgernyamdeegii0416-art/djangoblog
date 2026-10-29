@@ -1,18 +1,140 @@
 {% extends "blog/base.html" %}
-{% block title %}Home{% endblock %}
+
+{% block title %}アニメ一覧{% endblock %}
+
+{% block page_heading %}アニメを探す{% endblock %}
+
 {% block content %}
-  <h1>Welcome to DjangoBlog{{ title }}</h1>
-  <p>This page will soon show a list of blog posts.</p>
-  <div class="row">
-    {% for post in page_obj %}
-        {% include "blog/partials/_post_card.html" %}
-    {% empty %}
-        <div class="col-12">
-            <p class="text-center text-muted py-5">
-                No posts yet —
-                <a href="{% url 'post_create' %}">Write the first one!</a>
+
+<section class="anime-home">
+
+    <!-- INTRO -->
+    <div class="anime-welcome">
+        <div>
+            <div class="anime-eyebrow">
+                <span class="live-dot"></span>
+                アニメ発見
+            </div>
+
+            <h1>次の<span>お気に入りアニメ</span>を見つけよう</h1>
+
+            <p>
+                物語やキャラクター、そして新しい世界を探索しましょう。
             </p>
         </div>
-    {% endfor %}
-  </div>
+    </div>
+
+    <!-- SECTION HEADING -->
+    <div class="anime-section-heading">
+        <div>
+            <h2>アニメを探索</h2>
+            <p>あなたのお気に入りを見つけよう</p>
+        </div>
+
+        <span class="anime-count-label">アニメコレクション</span>
+    </div>
+
+    <!-- MAIN: posts (left) + categories (right) -->
+    <div class="row g-4 anime-home-layout">
+
+        <!-- LEFT: ANIME GRID -->
+        <div class="col-12 col-lg-9 col-xl-9">
+
+            <div class="row anime-grid">
+
+                {% for post in page_obj %}
+                    {% include "blog/partials/_post_card.html" %}
+                {% empty %}
+
+                    <div class="col-12">
+                        <div class="anime-empty-state">
+                            <div class="empty-icon">✦</div>
+
+                            <h3>まだアニメがありません</h3>
+
+                            <p>
+                                まだ投稿がありません。
+                                最初のアニメを追加してみましょう。
+                            </p>
+
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'post_create' %}"
+                                   class="btn btn-anime">
+                                    ＋ アニメを追加
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- PAGINATION -->
+            {% if page_obj.has_other_pages %}
+                <nav class="anime-pagination" aria-label="ページ送り">
+                    <ul class="pagination">
+
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page_obj.previous_page_number }}{% if selected_category %}&category={{ selected_category|urlencode }}{% endif %}">
+                                    ← 前へ
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                                <a class="page-link"
+                                   href="?page={{ num }}{% if selected_category %}&category={{ selected_category|urlencode }}{% endif %}">
+                                    {{ num }}
+                                </a>
+                            </li>
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page_obj.next_page_number }}{% if selected_category %}&category={{ selected_category|urlencode }}{% endif %}">
+                                    次へ →
+                                </a>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+                </nav>
+            {% endif %}
+
+        </div>
+
+        <!-- RIGHT: CATEGORIES -->
+        <div class="col-12 col-lg-3">
+            <aside class="category-panel">
+                <h3 class="category-title">カテゴリ</h3>
+
+                <ul class="category-list">
+                    <li>
+                        <a href="{% url 'home' %}"
+                           class="{% if not selected_category %}active{% endif %}">
+                            すべて
+                        </a>
+                    </li>
+
+                    {% for category in categories %}
+                        <li>
+                            <a href="?category={{ category.name|urlencode }}"
+                               class="{% if selected_category|lower == category.name|lower %}active{% endif %}">
+                                {{ category.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </aside>
+        </div>
+
+    </div>
+
+</section>
+
 {% endblock %}

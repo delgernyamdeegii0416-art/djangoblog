@@ -1,16 +1,80 @@
 {% extends "blog/base.html" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}ログイン{% endblock %}
+{% block page_heading %}ログイン{% endblock %}
+{% block page_subtitle %}アカウントにログインしてください{% endblock %}
 
 {% block content %}
-<h1>Login</h1>
+<section class="auth-page">
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <div class="auth-card">
 
-    <button type="submit" class="btn btn-primary">Log in</button>
-    <p></p>
-    <a href="{% url 'password_reset' %}">Forgot your password?</a>
-</form>
+        <div class="auth-logo">✦</div>
+
+        <h1 class="auth-title">おかえりなさい</h1>
+        <p class="auth-subtitle">AnimeVerseにログインして、アニメの世界へ。</p>
+
+        <form method="post" class="post-form auth-form" novalidate>
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">ユーザー名</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">パスワード</label>
+
+                <div class="password-field">
+                    {{ form.password }}
+                    <button type="button" class="password-toggle"
+                            id="passwordToggle" aria-label="パスワードを表示">
+                        表示
+                    </button>
+                </div>
+
+                {{ form.password.errors }}
+            </div>
+
+            <button type="submit" class="btn btn-anime auth-submit">ログイン</button>
+        </form>
+
+        <div class="auth-links">
+            {% url 'password_reset' as reset_url %}
+            {% if reset_url %}
+                <a href="{{ reset_url }}">パスワードをお忘れですか？</a>
+            {% endif %}
+
+            <span>
+                アカウントをお持ちでないですか？
+                <a href="{% url 'register' %}">新規登録</a>
+            </span>
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const input  = document.getElementById("{{ form.password.id_for_label }}");
+    const toggle = document.getElementById("passwordToggle");
+    if (!input || !toggle) return;
+
+    toggle.addEventListener("click", function () {
+        const show = input.type === "password";
+        input.type = show ? "text" : "password";
+        toggle.textContent = show ? "隠す" : "表示";
+        toggle.setAttribute("aria-label", show ? "パスワードを隠す" : "パスワードを表示");
+    });
+});
+</script>
 {% endblock %}

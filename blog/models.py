@@ -19,8 +19,7 @@ class Category(models.Model):
         return self.name
 
 class Post(models.Model):
-    STATUS_CHOICES = [('draft', 'Draft'), ('published', 'Published')]
-
+    STATUS_CHOICES = [('draft', '下書き'), ('published', '公開')]
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
     cover_image = models.ImageField(upload_to="post_covers/", blank=True, null=True)

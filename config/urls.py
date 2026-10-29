@@ -22,6 +22,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 import debug_toolbar
 from django.contrib.auth import views as auth_views
+from blog import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -37,9 +38,12 @@ urlpatterns = [
          name="password_reset_confirm"),
     path("reset/done/", auth_views.PasswordResetCompleteView.as_view(template_name="blog/password_reset_complete.html"),
          name="password_reset_complete"),
+    path("test-500/", views.test_500, name="test_500"),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler403 = "blog.views.custom_403"
+handler404 = "blog.views.custom_404"
+handler500 = "blog.views.custom_500"

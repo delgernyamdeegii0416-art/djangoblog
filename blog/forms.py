@@ -13,7 +13,10 @@ class PostForm(forms.ModelForm):
             "title": forms.TextInput(attrs={"class": "form-control"}),
             "category": forms.Select(attrs={"class": "form-select"}),
             "status": forms.Select(attrs={"class": "form-select"}),
+            "tags": forms.CheckboxSelectMultiple
         }
+        
+        
 
     def clean_title(self):
         title = self.cleaned_data["title"]

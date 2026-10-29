@@ -1,24 +1,50 @@
-<div class="col-md-4 mb-4">
-    <div class="card h-100 shadow-sm">
+
+<div class="col-md-4 col-lg-4 mb-4 anime-card-column">
+    <article class="card anime-card h-100">
+
         {% if post.cover_image %}
-            <img src="{{ post.cover_image.url }}" class="card-img-top" alt="{{ post.title }}">
+            <a href="{% url 'post_detail' post.slug %}" class="anime-image-link">
+                <img
+                    src="{{ post.cover_image.url }}"
+                    class="card-img-top anime-card-image"
+                    alt="{{ post.title }}"
+                >
+            </a>
         {% else %}
-            <div class="bg-secondary text-white text-center py-5">No Image</div>
+            <div class="anime-no-image">
+                <span>AnimeVerse</span>
+            </div>
         {% endif %}
 
-        <div class="card-body">
-            <h5 class="card-title">{{ post.title }}</h5>
-            <p class="text-muted small">
-                By {{ post.author.username }} · {{ post.created_at|date:"M d, Y" }}
+        <div class="card-body anime-card-body">
+            <h5 class="card-title anime-card-title">
+                <a href="{% url 'post_detail' post.slug %}">
+                    {{ post.title }}
+                </a>
+            </h5>
+
+            <p class="anime-card-description">
+                {{ post.content|striptags }}
             </p>
-            <p class="card-text">{{ post.content|truncatewords:20 }}</p>
 
-            <a href="{% url 'post_detail' post.slug %}" class="btn btn-primary btn-sm">Read more</a>
+            <div class="anime-card-actions">
+                <a href="{% url 'post_detail' post.slug %}"
+                   class="btn btn-anime btn-sm">
+                    続き
+                </a>
 
-            {% if post.author == request.user %}
-                <a href="{% url 'post_edit' post.slug %}" class="btn btn-outline-secondary btn-sm">Edit</a>
-                <a href="{% url 'post_delete' post.slug %}" class="btn btn-outline-danger btn-sm">Delete</a>
-            {% endif %}
+                {% if post.author == request.user %}
+                    <a href="{% url 'post_edit' post.slug %}"
+                       class="btn btn-outline-anime btn-sm">
+                        編集
+                    </a>
+
+                    <a href="{% url 'post_delete' post.slug %}"
+                       class="btn btn-outline-danger btn-sm">
+                        削除
+                    </a>
+                {% endif %}
+            </div>
         </div>
-    </div>
+    </article>
 </div>

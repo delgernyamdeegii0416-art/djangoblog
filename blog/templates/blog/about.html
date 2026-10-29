@@ -1,6 +1,114 @@
 {% extends "blog/base.html" %}
-{% block title %}About{% endblock %}
+
+{% block title %}サイトについて{% endblock %}
+{% block page_heading %}サイトについて{% endblock %}
+{% block page_subtitle %}AnimeVerseの紹介{% endblock %}
+
 {% block content %}
-  <h1>About {{ team }}</h1>
-  <p>This is a Django template. Variables use double curly braces.</p>
+<section class="about-page">
+
+    <!-- INTRO -->
+    <div class="anime-welcome">
+        <div class="anime-eyebrow">
+            <span class="live-dot"></span>
+            ABOUT ANIMEVERSE
+        </div>
+
+        <h1>アニメの世界を、<span>みんなで共有</span>しよう</h1>
+
+        <p>
+            AnimeVerseは、お気に入りのアニメを紹介・発見できる投稿サイトです。
+            好きな作品の魅力を言葉にして、まだ出会っていない新しい作品を見つけましょう。
+        </p>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="anime-section-heading">
+        <div>
+            <h2>できること</h2>
+            <p>AnimeVerseの主な機能</p>
+        </div>
+    </div>
+
+    <div class="about-grid">
+        <article class="about-card">
+            <div class="about-icon">✎</div>
+            <h3>アニメを投稿</h3>
+            <p>
+                タイトル、紹介文、カバー画像を登録して、
+                あなたのお気に入りのアニメを紹介できます。
+            </p>
+        </article>
+
+        <article class="about-card">
+            <div class="about-icon">◈</div>
+            <h3>カテゴリで探す</h3>
+            <p>
+                スポーツ、恋愛、ファンタジーなど、
+                ジャンル別に作品を絞り込んで探せます。
+            </p>
+        </article>
+
+        <article class="about-card">
+            <div class="about-icon">♡</div>
+            <h3>自分の投稿を管理</h3>
+            <p>
+                投稿した作品はいつでも編集・削除できます。
+                自分の投稿だけをまとめて確認することもできます。
+            </p>
+        </article>
+    </div>
+
+    <!-- HOW TO -->
+    <div class="anime-section-heading about-heading-gap">
+        <div>
+            <h2>使い方</h2>
+            <p>3ステップで始められます</p>
+        </div>
+    </div>
+
+    <ol class="about-steps">
+        <li class="about-step">
+            <span class="about-step-number">1</span>
+            <div>
+                <h3>アカウントを作成</h3>
+                <p>新規登録をして、ログインします。</p>
+            </div>
+        </li>
+
+        <li class="about-step">
+            <span class="about-step-number">2</span>
+            <div>
+                <h3>アニメを投稿</h3>
+                <p>「新規投稿」から作品の情報と画像を入力して保存します。</p>
+            </div>
+        </li>
+
+        <li class="about-step">
+            <span class="about-step-number">3</span>
+            <div>
+                <h3>みんなの投稿を楽しむ</h3>
+                <p>ホームでほかの人の投稿を見て、次に観る作品を見つけましょう。</p>
+            </div>
+        </li>
+    </ol>
+
+    <!-- CTA -->
+    <div class="about-cta">
+        <div>
+            <h2>さあ、はじめよう</h2>
+            <p>あなたのお気に入りのアニメを、みんなに紹介してみませんか？</p>
+        </div>
+
+        {% if request.user.is_authenticated %}
+            <a class="btn btn-anime" href="{% url 'post_create' %}">＋ 新規投稿</a>
+        {% else %}
+            <div class="about-cta-buttons">
+                <a class="btn btn-anime" href="{% url 'register' %}">新規登録</a>
+                <a class="btn btn-ghost" href="{% url 'login' %}">ログイン</a>
+            </div>
+        {% endif %}
+    </div>
+
+</section>
 {% endblock %}
